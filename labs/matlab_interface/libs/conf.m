@@ -33,8 +33,8 @@ d_max = sample_rate_Hz / 2 * c / (2 * S);
 % 128 samples per chirp
 num_samples_per_chirp = 128 ;  
 
-% 4 chirps per frame
-num_chirps_per_frame = 4;  
+% 1 chirps per frame
+num_chirps_per_frame = 1;  
 
 % Frame repetition time default 0.025s (frame rate of 40Hz)         
 fps = 40;

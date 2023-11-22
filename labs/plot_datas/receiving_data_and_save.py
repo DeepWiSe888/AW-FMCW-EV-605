@@ -15,9 +15,9 @@ from libs.utils import *
 def main():
     filename = './datas/{}.dat'.format(int(round(time.time() * 1000)))
     fid = open(filename,'ab+')
-    s = SerialCollect(port='COM3')
+    s = SerialCollect(port='COM8')
     recv_thd = threading.Thread(target=s.recv_data)
-    recv_thd.setDaemon(True)
+    recv_thd.setDaemon=True
     recv_thd.start()
     last_fn = 0
     try:

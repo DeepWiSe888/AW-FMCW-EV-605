@@ -118,7 +118,7 @@ def main():
     ax6.setTicks([[(v, '{}'.format(int((v - NFFT / 2) * FPS / NFFT)) ) for v in freq_ticks]])
     
 
-    path = "./datas/1658733758314.dat"
+    path = "./datas/1665766660091.dat"
     range_data = read_data(path)
     (frame_cnt,rx_cnt,bin_cnt) = range_data.shape
     

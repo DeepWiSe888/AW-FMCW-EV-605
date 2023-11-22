@@ -4,7 +4,7 @@ delete(instrfindall);
 if exist('s','var')
     delete(s);
 end
-s = serialport("COM3",4000000);
+s = serialport("COM8",921600);
 configureTerminator(s,"CR/LF")
 
 addpath libs;

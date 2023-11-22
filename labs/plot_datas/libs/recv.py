@@ -2,7 +2,7 @@ import time
 import serial
 import struct
 from queue import Queue
-
+from libs.conf import *
 try:
     from conf import *
     from utils import *
@@ -14,7 +14,7 @@ except:
 Cache = Queue()
 
 class SerialCollect(object):
-    def __init__(self,port,baudrate = 4000000):
+    def __init__(self,port,baudrate = 921600):
         self.state = False
         #if open serial error return
         try:
@@ -27,6 +27,8 @@ class SerialCollect(object):
         self._pack_head = flag
         #tmp cache
         self._packs = bytes()
+        
+        self._last_fn = -1
         
     def recv_data(self):
         while True:
@@ -46,10 +48,18 @@ class SerialCollect(object):
                 if(end_index == -1):
                     break
                 pack = self._packs[start_index:end_index]
-                pack_dict = parse_pack(pack)
-                pack_dict['byte'] = pack
-                if len(pack_dict['data']) >= num_tx * num_rx * num_chirps_per_frame * num_samples_per_chirp:
-                    Cache.put(pack_dict)
-                if pack_dict['fno'] % 100 == 0:
-                    print('fn:{},tx:{},rx:{},t:{},data_len:{}'.format(pack_dict['fno'],pack_dict['tx'],pack_dict['rx'],pack_dict['t'],len(pack_dict['data'])))
+                try:
+                    pack_dict = parse_pack(pack)
+                    pack_dict['byte'] = pack
+                    if len(pack_dict['data']) >= num_tx * num_rx * num_chirps_per_frame * num_samples_per_chirp:
+                        Cache.put(pack_dict)
+                    if pack_dict['fno'] % 100 == 0:
+                        print('fn:{},tx:{},rx:{},t:{},data_len:{}'.format(pack_dict['fno'],pack_dict['tx'],pack_dict['rx'],pack_dict['t'],len(pack_dict['data'])))
+                    if np.abs(pack_dict['fno'] - self._last_fn) != 1 and self._last_fn > 0:
+                        print("loss data,fn:{}".format(pack_dict['fno'])) 
+                    self._last_fn = pack_dict['fno']
+                except:
+                    # print('parse error')
+                    pass
                 self._packs = self._packs[end_index:]
+                

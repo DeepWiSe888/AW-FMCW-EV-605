@@ -49,7 +49,7 @@ def main():
     curve4 = pg.ImageItem()
     p4.addItem(curve4)
     p4.setLabels(left='time(s)',bottom='range(m)')
-    bar4 = pg.ColorBarItem( values=(0,1), colorMap=colorMap) 
+    bar4 = pg.ColorBarItem( values=(0,1), colorMap=colorMap)
     bar4.setImageItem(curve4)  
     ax4 = p4.getAxis('bottom')
     ax4.setTicks([[(v, '{:.2f}'.format((v + OFFSET) * RANGE_RESOLUTION + RANGE_SATRT)) for v in range_ticks]]) 
@@ -60,7 +60,7 @@ def main():
     curve5 = pg.ImageItem()
     p5.addItem(curve5)
     p5.setLabels(left='time(s)',bottom='range(m)')
-    bar5 = pg.ColorBarItem( values=(0,1), colorMap=colorMap) 
+    bar5 = pg.ColorBarItem( values=(0,1), colorMap=colorMap)
     bar5.setImageItem(curve5) 
     ax5 = p5.getAxis('bottom')
     ax5.setTicks([[(v, '{:.2f}'.format((v + OFFSET) * RANGE_RESOLUTION + RANGE_SATRT)) for v in range_ticks]]) 
@@ -71,17 +71,17 @@ def main():
     curve6 = pg.ImageItem()
     p6.addItem(curve6)
     p6.setLabels(left='doppler(Hz)',bottom='range(m)')
-    bar6 = pg.ColorBarItem(values=(0,1), colorMap=colorMap) 
+    bar6 = pg.ColorBarItem(values=(0,1), colorMap=colorMap)
     bar6.setImageItem(curve6)  
     ax6 = p6.getAxis('bottom')
     ax6.setTicks([[(v, '{:.2f}'.format((v + OFFSET) * RANGE_RESOLUTION + RANGE_SATRT)) for v in range_ticks]])
     ax6 = p6.getAxis('left')
     freq_ticks = [i for i in range(NFFT + 1) if i % FPS == 0]
     ax6.setTicks([[(v, '{}'.format(int((v - NFFT / 2) * FPS / NFFT)) ) for v in freq_ticks]])
-    
-    s = SerialCollect(port='COM3')
+
+    s = SerialCollect(port='COM8')
     recv_thd = threading.Thread(target=s.recv_data)
-    recv_thd.setDaemon(True)
+    recv_thd.setDaemon=True
     recv_thd.start()
 
     framelist = []
